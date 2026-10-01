@@ -26,7 +26,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 public final class SmartWorkbenchMod {
 
     public static final String MOD_ID = "smart_workbench";
-    public static final String VERSION = "2.0.0-beta.8";
+    public static final String VERSION = "1.0.1";
 
     @Mod.Instance(MOD_ID)
     public static SmartWorkbenchMod instance;

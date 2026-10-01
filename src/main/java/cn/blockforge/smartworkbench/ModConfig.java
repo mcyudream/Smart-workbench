@@ -33,6 +33,7 @@ public final class ModConfig {
     private static int maxInputBindings = 24;
     private static int maxOutputBindings = 6;
     private static int autoCraftLimit = 64;
+    private static int recursiveDepth = 5;
     private static int listSlots = DEFAULT_LIST_SIZE;
     private static String[] blacklist = new String[0];
 
@@ -66,6 +67,9 @@ public final class ModConfig {
                 "不接入的方块 ID 列表，例如 [\"minecraft:chest\"]。");
         autoCraftLimit = clamp(config.getInt("autoCraftLimit", "craft", 64, 1, 12318,
                 "点一次「自动合成」最多做多少个，默认 64，最大 12318。"), 1, 12318);
+        recursiveDepth = clamp(config.getInt("recursiveDepth", "craft", 5, 1, 16,
+                "链式合成（自动补齐中间材料）的最大深度：1 表示只补一层中间材料，"
+                        + "5 表示最多自动向下补 5 层（例如 目标<-半成品B<-半成品A<-原材料）。默认 5。"), 1, 16);
         if (config.hasChanged()) {
             config.save();
         }
@@ -103,6 +107,11 @@ public final class ModConfig {
 
     public static int autoCraftLimit() {
         return Math.max(1, autoCraftLimit);
+    }
+
+    /** 链式合成的最大深度（目标产物向下自动补中间材料的层数）。 */
+    public static int recursiveDepth() {
+        return Math.max(1, recursiveDepth);
     }
 
     public static int maxListSize() {

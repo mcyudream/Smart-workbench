@@ -78,7 +78,7 @@ public class SmartWorkbenchContainer extends Container {
     private static final int MAX_BATCH_CRAFTS = 256;
     /** 递归补齐最多展开这么多次，避免错误配方或循环配方拖住服务器。 */
     private static final int MAX_RECURSIVE_STEPS = 256;
-    private static final int MAX_RECURSIVE_DEPTH = 16;
+    /** 递归补齐的最大深度走配置 craft.recursiveDepth（默认 5 层，见 ModConfig）。 */
 
     /** 客户端正在显示的“自动补齐”确认框；服务端不会依赖这些字段做权限判断。 */
     private ResourceLocation recursivePromptRecipeId;
@@ -1488,7 +1488,7 @@ public class SmartWorkbenchContainer extends Container {
 
     /** 递归规划一份配方；steps 按依赖先后排列，最后一项是目标物品。 */
     private boolean planRecipe(IRecipe recipe, RecursivePlanState state, int depth, Set<ResourceLocation> active) {
-        if (depth > MAX_RECURSIVE_DEPTH || state.steps.size() >= MAX_RECURSIVE_STEPS
+        if (depth > ModConfig.recursiveDepth() || state.steps.size() >= MAX_RECURSIVE_STEPS
                 || recipe == null || !isPlainCraft(recipe)) {
             return false;
         }
