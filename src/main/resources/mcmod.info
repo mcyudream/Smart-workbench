@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "smart_workbench",
+    "name": "Smart Workbench",
+    "description": "Smart Workbench for Minecraft 1.12.2 (Forge / Cleanroom). Auto-detect nearby containers for one-click material extraction and crafting.\n1.12.2 port by ZCode migration.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://github.com/BarryAlen777/Smart-workbench",
+    "updateUrl": "",
+    "authorList": [
+      "BarryAlen777"
+    ],
+    "credits": "BarryAlen777",
+    "logoFile": "logo.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

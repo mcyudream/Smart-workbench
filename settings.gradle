@@ -1,4 +1,1 @@
-pluginManagement {
-    repositories { gradlePluginPortal(); maven { url = 'https://maven.minecraftforge.net/' }; mavenCentral() }
-}
-rootProject.name = 'blockforge-generated'
+rootProject.name = 'smart_workbench'

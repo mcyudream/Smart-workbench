@@ -1,5 +1,10 @@
 {
   "variants": {
-    "": { "model": "smart_workbench:block/smart_workbench" }
+    "normal": {
+      "model": "smart_workbench:smart_workbench"
+    },
+    "inventory": {
+      "model": "smart_workbench:smart_workbench"
+    }
   }
 }

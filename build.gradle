@@ -1,21 +1,42 @@
-plugins { id 'java'; id 'net.minecraftforge.gradle' version '[6.0,6.2)' }
-version = '1.5.1-r60'
-group = 'cn.blockforge.generated.mod2e8abd21'
-base { archivesName = 'smart_workbench' }
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-minecraft { mappings channel: 'official', version: '1.20.1' }
-// 对 REI / JEI / EMI / 多态合成(Polymorph) 的联动完全走运行时反射（见 compat/ 下的各个 Bridge），
-// 不引入任何编译期依赖：本工程的独立编译器只认 Minecraft/Forge，
-// 而且玩家没装对应模组时那套代码根本不会被执行。
-dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url = 'https://maven.minecraftforge.net' }
+    }
+    dependencies {
+        // anatawa12 维护的 ForgeGradle 2.3 分支：兼容新版 Gradle/JDK，
+        // 并自带已停运的 mcpbot 映射镜像（stable_39 等），1.12.2 官方 FG 早已不可用
+        classpath 'com.anatawa12.forge:ForgeGradle:2.3-1.0.8'
+    }
 }
-tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+apply plugin: 'java'
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = '2.0.0-beta.8'
+group = 'cn.blockforge.smartworkbench'
+archivesBaseName = 'smart_workbench-1.12.2'
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+    options.encoding = 'UTF-8'
+}
+
+minecraft {
+    // 2847 是最后一个发布 userdev 的 1.12.2 构建，1.12.2 模组开发的标准目标；
+    // 产物在 2855+（含 2860 正式版）和 Cleanroom 上二进制兼容
+    version = '1.12.2-14.23.5.2847'
+    runDir = 'run'
+    // 1.12.2 的最终稳定 MCP 映射
+    mappings = 'stable_39'
+}
+
 processResources {
-    def props = [mod_id: 'smart_workbench', mod_name: 'Smart Workbench', mod_version: project.version,
-                 minecraft_version: '1.20.1', forge_version: '47.4.0']
-    inputs.properties props
-    filteringCharset = 'UTF-8'
-    filesMatching('META-INF/mods.toml') { expand props }
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', project.minecraft.version
+    filesMatching('mcmod.info') {
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
 }
+
 jar.finalizedBy('reobfJar')
